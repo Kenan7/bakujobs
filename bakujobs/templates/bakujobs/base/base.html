@@ -59,27 +59,6 @@
         });
     </script>
     <script>
-        $(document).ready(function (e) {
-            $("#id_category").change(function(e) {
-                var categoryId = $(this).val();
-                var url = $("#jobForm").attr("data-items-url");
-                $.ajax({
-                    url: url,
-                    type: "GET",
-                    data: {
-                        'category': categoryId
-                    },
-                    success: function (data) {
-                        $("#id_job_description").html(data);
-                    },
-                    error: function (xhr, errmsg, err) {
-                        console.log(xhr, errmsg, err);
-                    }
-                });
-            });
-        });
-    </script>
-    <script>
         // using jQuery
         function getCookie(name) {
             var cookieValue = null;
