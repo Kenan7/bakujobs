@@ -1,0 +1,171 @@
+{% extends 'bakujobs/base/minimalBase.html' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <form method="post" id="jobForm" class="form-horizontal" data-items-url="{% url 'ajax_load_items' %}">
+                    {% csrf_token %}
+                    <div class="the-area">
+
+                        <div class="form-group">
+                            <label for="id_job_title" class="col-sm-3 control-label">Job Title</label>
+                            <div class="col-sm-9">
+                                {{ form.job_title }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_name" class="col-sm-3 control-label">Company Name</label>
+                            <div class="col-sm-9">
+                                {{ form.company_name }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_category" class="col-sm-3 control-label">Job Category</label>
+                            <div class="col-sm-9">
+                                {{ form.category }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_job_description" class="col-sm-3 control-label">Job description</label>
+                            <div class="col-sm-9">
+                                {{ form.job_description }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_job_type" class="col-sm-3 control-label">Job type:</label>
+                            <div class="col-sm-9">
+                                {{ form.job_type }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-5">
+                                    <label for="id_min_salary" class="col-sm-3 col-md-6 control-label">Min salary:</label>
+                                    <div class="col-sm-9">
+                                        {{ form.min_salary }}
+                                    </div>
+                                </div>
+
+                                <div class="col-5">
+                                    <label for="id_max_salary" class="col-sm-3 col-md-6 control-label">Max salary:</label>
+                                    <div class="col-sm-9">
+                                        {{ form.max_salary }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_gender" class="col-sm-3 control-label">Gender</label>
+                            <div class="col-sm-9">
+                                {{ form.gender }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_location" class="col-sm-3 control-label">Location</label>
+                            <div class="col-sm-9">
+                                {{ form.location }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_description" class="col-sm-3 control-label">Description</label>
+                            <div class="col-sm-9">
+                                {{ form.description }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_website" class="col-sm-3 control-label">Website</label>
+                            <div class="col-sm-9">
+                                {{ form.website }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_email" class="col-sm-3 control-label">E-mail</label>
+                            <div class="col-sm-9">
+                                {{ form.email }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_phone" class="col-sm-3 control-label">Phone Number</label>
+                            <div class="col-sm-9">
+                                {{ form.phone }}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-9 col-sm-offset-2">
+                            <input class="btn btn-primary" type="submit" value="Save">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    <script>
+        $(document).ready(function (e) {
+            $("#id_category").change(function(e) {
+                var categoryId = $(this).val();
+                var url = $("#jobForm").attr("data-items-url");
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    data: {
+                        'category': categoryId
+                    },
+                    success: function (data) {
+                        $("#id_job_description").html(data);
+                    },
+                    error: function (xhr, errmsg, err) {
+                        console.log(xhr, errmsg, err);
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        // using jQuery
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getCookie('csrftoken');
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+    </script>
+{% endblock %}

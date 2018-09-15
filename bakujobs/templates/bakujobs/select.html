@@ -1,0 +1,4 @@
+<option value="">---------</option>
+{% for description in description_list %}
+    <option value="{{ description.pk }}">{{ description.name }}</option>
+{% endfor %}

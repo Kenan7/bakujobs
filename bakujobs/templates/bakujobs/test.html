@@ -1,0 +1,33 @@
+{% extends 'bakujobs/base/base.html' %}
+
+{% block body %}
+    <form action="." method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+    </form>
+{% endblock %}
+
+{% block script %}
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        $(document).ready(function (e) {
+            $("#cate").change(function(e) {
+                cat = $(this).val();
+                var job = $("#desc");
+                $.ajax({
+                    url: 'item/' + cat + '/',
+                    type: "GET",
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        console.log(data.description_list),
+                            job.html(data)
+                    },
+                    error: function (xhr, errmsg, err) {
+                        console.log(xhr, errmsg, err);
+                    } // end error: function
+                });
+            });
+        });
+    </script>
+{% endblock %}

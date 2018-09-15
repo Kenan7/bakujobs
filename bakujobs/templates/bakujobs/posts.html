@@ -1,0 +1,81 @@
+{#{% extends "bakujobs/base/base.html" %}#}
+
+{% block body %}
+    <div class="job-grid-sec">
+        <div class="row">
+            {% for job in object_list %}
+                <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12 ml-3">
+                    <div class="job-grid border">
+                        <div class="job-title-sec pt-3">
+                            <h3>
+                                <a href="{{ job.get_absolute_url }}" title="">{{ job.job_title }}</a>
+                            </h3>
+                            <span>{{ job.category }} / {{ job.job_description }}</span>
+
+                            <div class="job-style-bx">
+                                <span class="job-is {{ job.job_type.slug }}">{{ job.job_type.name }}</span>
+                            </div>
+                        </div>
+
+                        <span class="job-lctn">{{ job.location }}</span>
+                        <a href="#" id="apply" title="">APPLY NOW</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{#{% block script %}#}
+{#    <script>#}
+{#        $(document).ready(function (e) {#}
+{#            $("#choose").prop('checked', true, function (e) {#}
+{#                var postDate = $(this).val();#}
+{#                $.ajax({#}
+{#                    url: 'sorted/',#}
+{#                    type: "GET",#}
+{#                    data: {#}
+{#                        'date': postDate#}
+{#                    },#}
+{#                    success: function (data) {#}
+{#                        $(".job-list-modern").html(data);#}
+{#                    },#}
+{#                    error: function (xhr, errmsg, err) {#}
+{#                        console.log(xhr, errmsg, err);#}
+{##}
+{#                    });#}
+{#                });#}
+{#            });#}
+{#        });#}
+{#    </script>#}
+{#    <script>#}
+{#        // using jQuery#}
+{#        function getCookie(name) {#}
+{#            var cookieValue = null;#}
+{#            if (document.cookie && document.cookie !== '') {#}
+{#                var cookies = document.cookie.split(';');#}
+{#                for (var i = 0; i < cookies.length; i++) {#}
+{#                    var cookie = jQuery.trim(cookies[i]);#}
+{#                    // Does this cookie string begin with the name we want?#}
+{#                    if (cookie.substring(0, name.length + 1) === (name + '=')) {#}
+{#                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));#}
+{#                        break;#}
+{#                    }#}
+{#                }#}
+{#            }#}
+{#            return cookieValue;#}
+{#        }#}
+{#        var csrftoken = getCookie('csrftoken');#}
+{#        function csrfSafeMethod(method) {#}
+{#            // these HTTP methods do not require CSRF protection#}
+{#            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));#}
+{#        }#}
+{#        $.ajaxSetup({#}
+{#            beforeSend: function(xhr, settings) {#}
+{#                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {#}
+{#                    xhr.setRequestHeader("X-CSRFToken", csrftoken);#}
+{#                }#}
+{#            }#}
+{#        });#}
+{#    </script>#}
+{#{% endblock %}#}
