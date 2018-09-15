@@ -36,7 +36,28 @@
 {% block body %}
 {% endblock %}
 
-{% block script %}
+{% block javascript %}
+    <script>
+        $(document).ready(function (e) {
+            $("#my_radio_box").change(function (e) {
+                var postDate = $("input[name='choose']:checked").val();
+                console.log(postDate)
+                $.ajax({
+                    url: 'sorted/',
+                    type: "GET",
+                    data: {
+                        'date': postDate
+                    },
+                    success: function (data) {
+                        $(".job-list-modern").html(data);
+                    },
+                    error: function (xhr, errmsg, err) {
+                        console.log(xhr, errmsg, err);
+                    }
+                });
+            });
+        });
+    </script>
     <script>
         $(document).ready(function (e) {
             $("#id_category").change(function(e) {
@@ -89,6 +110,5 @@
         });
     </script>
 {% endblock %}
-
 </body>
 </html>
