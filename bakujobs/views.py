@@ -24,7 +24,6 @@ class Index(ListView):
 class CreateJob(CreateView):
     form_class = CreateJob
     template_name = 'bakujobs/job_create.html'
-    success_url = ''
 
     def form_valid(self, form):
         instance = form.save(commit=False)

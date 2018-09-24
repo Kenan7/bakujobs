@@ -30,6 +30,7 @@ class JobAdmin(admin.ModelAdmin):
           }
          )
     ]
+    list_filter = ('job_type', 'created_at')
 
 admin.site.register(Job, JobAdmin)
 admin.site.register(Category)

@@ -2,3 +2,5 @@
 bakujobs/extra_view.py
 bakujobs/has-not-been-applied.py
 bakujobs/templates/bakujobs/test.html
+__pycache__/
+*.pyc
