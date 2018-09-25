@@ -74,7 +74,6 @@ class Job(models.Model):
     def get_absolute_url(self):
         return reverse('jobdetail', kwargs={'slug': self.slug})
 
-
 # Signal stuff
 
 def slug_pre_save_receiver(sender, instance, *args, **kwargs):
