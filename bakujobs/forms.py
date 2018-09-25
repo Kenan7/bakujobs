@@ -1,15 +1,15 @@
-from django import forms
-from bakujobs.models import *
+from bakujobs.models import Job, Category, Description
 from froala_editor.widgets import FroalaEditor
+from django import forms
 
-class CreateJob(forms.ModelForm):
+class JobCreate(forms.ModelForm):
     class Meta:
         model = Job
         fields = ('job_title', 'company_name', 'category', 'job_description', 'job_type', 'location', 'description', 'website', 'email', 'phone', 'min_salary', 'max_salary', 'gender')
 
     def __init__(self, *args, **kwargs):
         # self.user = kwargs.pop('user')
-        super(CreateJob, self).__init__(*args, **kwargs)
+        super(JobCreate, self).__init__(*args, **kwargs)
         self.fields['job_description'].queryset = Description.objects.none()
 
         for field in iter(self.fields):

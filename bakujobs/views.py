@@ -15,29 +15,29 @@ from bakujobs.models import (
     Description,
     Category
 )
-from .forms import CreateJob
+from .forms import JobCreate
 
-class Index(ListView):
+class Home(ListView):
     model = Job
     template_name = "bakujobs/job_list.html"
 
-class CreateJob(CreateView):
-    form_class = CreateJob
+class JobCreate(CreateView):
+    form_class = JobCreate
     template_name = 'bakujobs/job_create.html'
 
     def form_valid(self, form):
         instance = form.save(commit=False)
         instance.owner = self.request.user
-        response = super(CreateJob, self).form_valid(form)
+        response = super(JobCreate, self).form_valid(form)
         form.save()
         return response
 
     # def get_form_kwargs(self):
-    #     kwargs = super(CreateJob, self).get_form_kwargs()
+    #     kwargs = super(JobCreate, self).get_form_kwargs()
     #     kwargs.update({'user': self.request.user})
     #     return kwargs
 
-class DetailJob(DetailView):
+class JobDetail(DetailView):
     context_object_name = "job"
     queryset = Job.objects.all()
     template_name = 'bakujobs/job_detail.html'
@@ -61,7 +61,7 @@ class GetCategoryDescriptionAjaxView(View):
         }, status=404)
 
 class GetDateAndFilter(View):
-    ajax_template = "bakujobs/posts.html"
+    ajax_template = "bakujobs/job_posts.html"
     date = {
         "last-one-hour" : timedelta(hours=1),
         "last-one-day" : timedelta(days=1),
