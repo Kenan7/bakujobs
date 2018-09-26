@@ -1,3 +1,4 @@
+from django.contrib.auth.base_user import AbstractBaseUser
 from django.db.models.signals import pre_save, post_save
 from .utils import unique_slug_generator, send_job_mail
 from froala_editor import fields
@@ -13,8 +14,24 @@ GENDER_CHOICES = (
     ('Female', 'Female'),
 )
 
+
+class Company(AbstractBaseUser):
+    name            = models.CharField(max_length=50)
+    email           = models.CharField(max_length=10)
+    location        = models.CharField(max_length=50)
+    website         = models.URLField(blank=True)
+    phone           = models.CharField(max_length=15, blank=True)
+    slug            = models.SlugField(blank=True, null=True, unique=True)
+
+    USERNAME_FIELD = 'email'
+
+    class Meta:
+        verbose_name = 'Company'
+        verbose_name_plural = 'Companies'
+
 class Category(models.Model):
     name            = models.CharField(max_length=50)
+
     slug            = models.SlugField(blank=True, null=True)
 
     class Meta:
@@ -42,20 +59,15 @@ class Job(models.Model):
     class Meta:
         ordering = ['-modified_at']
 
-    owner           = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner           = models.ForeignKey(Company, on_delete=models.CASCADE)
     job_title       = models.CharField(
         max_length=50,
         help_text="Please write job title carefully, avoid grammatic mistakes"
     )
-    company_name    = models.CharField(max_length=50)
-    website         = models.URLField(blank=True)
     category        = models.ForeignKey(Category, on_delete=models.CASCADE)
     job_description = models.ForeignKey(Description, on_delete=models.CASCADE)
     job_type        = models.ForeignKey(Type, on_delete=models.CASCADE)
-    location        = models.CharField(max_length=50)
     description     = fields.FroalaField()
-    email           = models.CharField(max_length=100)
-    phone           = models.CharField(max_length=15, blank=True)
     min_salary      = models.IntegerField(default=0)
     max_salary      = models.IntegerField(default=0)
     gender          = models.CharField(max_length=8, choices=GENDER_CHOICES, default="All")
@@ -87,4 +99,5 @@ pre_save.connect(slug_pre_save_receiver, sender=Category)
 pre_save.connect(slug_pre_save_receiver, sender=Description)
 pre_save.connect(slug_pre_save_receiver, sender=Type)
 pre_save.connect(slug_pre_save_receiver, sender=Job)
+pre_save.connect(slug_pre_save_receiver, sender=Company)
 post_save.connect(mail_post_save, sender=Job)

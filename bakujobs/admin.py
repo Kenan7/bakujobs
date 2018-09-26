@@ -3,7 +3,8 @@ from bakujobs.models import (
     Job,
     Description,
     Category,
-    Type
+    Type,
+    Company
 )
 
 
@@ -19,11 +20,11 @@ class JobAdmin(admin.ModelAdmin):
                ]
           }
          ),
-        ('Company',
-         {'fields':
-              ['company_name', 'location', 'email', 'website', 'phone']
-          }
-         ),
+        # ('Company',
+        #  {'fields':
+        #       ['company_name', 'location', 'email', 'website', 'phone']
+        #   }
+        #  ),
         ('Additional',
          {'fields':
               ['owner', 'slug', 'status']
@@ -36,3 +37,4 @@ admin.site.register(Job, JobAdmin)
 admin.site.register(Category)
 admin.site.register(Type)
 admin.site.register(Description)
+admin.site.register(Company)
