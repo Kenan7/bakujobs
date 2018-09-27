@@ -1,5 +1,5 @@
+from .utils import slug_pre_save_receiver, email_post_save_receiver
 from django.db.models.signals import pre_save, post_save
-from .utils import unique_slug_generator, send_job_mail
 from employer.models import Employer
 from froala_editor import fields
 from django.urls import reverse
@@ -68,13 +68,6 @@ class Job(models.Model):
         return reverse('jobdetail', kwargs={'slug': self.slug})
 
 # Signal stuff
-
-def slug_pre_save_receiver(sender, instance, *args, **kwargs):
-    if not instance.slug:
-        instance.slug = unique_slug_generator(instance)
-
-def email_post_save_receiver(sender, instance, *args, **kwargs):
-    send_job_mail(instance)
 
 post_save.connect(email_post_save_receiver, sender=Job)
 pre_save.connect(slug_pre_save_receiver, sender=Category)

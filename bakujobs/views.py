@@ -1,5 +1,12 @@
+from employer.forms import UserLoginForm, UserRegisterForm
 from django.shortcuts import render, reverse
 from django.http import JsonResponse
+from django.shortcuts import render
+from django.contrib.auth import (
+    authenticate,
+    login,
+    logout
+)
 from django.utils import timezone
 from datetime import timedelta
 import pytz
@@ -79,3 +86,12 @@ class GetDateAndFilter(View):
             context = {}
             context["object_list"] = queryset
             return render(request, self.ajax_template, context)
+
+def login_view(request):
+    form = UserLoginForm(request.POST or None)
+    if form.is_valid():
+        name = form.cleaned_data.get('name')
+        password = form.cleaned_data.get('password')
+    context = {}
+    context['form'] = form
+    return render(request, 'bakujobs/login.html', context)

@@ -1,5 +1,6 @@
 import os
 
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = '7#729mobv@p7rhrp(&f-jw4^c45+w9h1zlr2jf^tvgub*^&gmr'
@@ -22,6 +23,8 @@ INSTALLED_APPS = [
     'froala_editor',
     'debug_toolbar',
 ]
+
+AUTH_USER_MODEL = 'employer.Employer'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -111,3 +114,4 @@ EMAIL_HOST_USER = "jobsbaki@gmail.com"
 EMAIL_HOST_PASSWORD = 'Kenan53626'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
