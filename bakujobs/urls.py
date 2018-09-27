@@ -5,6 +5,7 @@ import debug_toolbar
 
 urlpatterns = [
     path('', views.Home.as_view(), name='home'),
+    path('login/', views.login_view, name='login'),
     path('sorted/', views.GetDateAndFilter.as_view()),
     path('create/', views.JobCreate.as_view(), name='jobcreate'),
     path('jobs/<slug:slug>/', views.JobDetail.as_view(), name='jobdetail'),

@@ -4,9 +4,20 @@ from bakujobs.models import (
     Description,
     Category,
     Type,
-    Company
+    Employer
 )
 
+class EmployerAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (
+            'Job',
+            {
+                'fields':
+                    ['name', 'password',
+                     'email', 'location', 'website', 'phone']
+            }
+        )
+    ]
 
 class JobAdmin(admin.ModelAdmin):
     list_display = ['__str__', 'category', 'job_description', 'job_title', 'job_type']
@@ -37,4 +48,4 @@ admin.site.register(Job, JobAdmin)
 admin.site.register(Category)
 admin.site.register(Type)
 admin.site.register(Description)
-admin.site.register(Company)
+admin.site.register(Employer, EmployerAdmin)
