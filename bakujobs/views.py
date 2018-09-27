@@ -1,4 +1,5 @@
 from employer.forms import UserLoginForm, UserRegisterForm
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import render, reverse
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -27,6 +28,17 @@ from .forms import JobCreate
 class Home(ListView):
     model = Job
     template_name = "bakujobs/job_list.html"
+    page_kwarg = 10
+
+    def get_context_data(self, **kwargs):
+        context = super(Home, self).get_context_data(**kwargs)
+        object_list = Job.objects.all()
+        paginator = Paginator(object_list, self.paginate_by)
+
+        page = request.GET.get('page')
+        jobs = paginator.get_page(page)
+        context['object_list'] = jobs
+
 
 class JobCreate(CreateView):
     form_class = JobCreate
