@@ -1,13 +1,5 @@
-from employer.forms import UserLoginForm, UserRegisterForm
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import render, reverse
 from django.http import JsonResponse
-from django.shortcuts import render
-from django.contrib.auth import (
-    authenticate,
-    login,
-    logout
-)
 from django.utils import timezone
 from datetime import timedelta
 import pytz
@@ -28,17 +20,6 @@ from .forms import JobCreate
 class Home(ListView):
     model = Job
     template_name = "bakujobs/job_list.html"
-    page_kwarg = 10
-
-    def get_context_data(self, **kwargs):
-        context = super(Home, self).get_context_data(**kwargs)
-        object_list = Job.objects.all()
-        paginator = Paginator(object_list, self.paginate_by)
-
-        page = request.GET.get('page')
-        jobs = paginator.get_page(page)
-        context['object_list'] = jobs
-
 
 class JobCreate(CreateView):
     form_class = JobCreate
@@ -98,12 +79,3 @@ class GetDateAndFilter(View):
             context = {}
             context["object_list"] = queryset
             return render(request, self.ajax_template, context)
-
-def login_view(request):
-    form = UserLoginForm(request.POST or None)
-    if form.is_valid():
-        name = form.cleaned_data.get('name')
-        password = form.cleaned_data.get('password')
-    context = {}
-    context['form'] = form
-    return render(request, 'bakujobs/login.html', context)
