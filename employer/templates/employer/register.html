@@ -1,10 +1,134 @@
-{% extends "employer/base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Register</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load staticfiles %}
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'login/custom.css' %}">
 
-{% block content %}
-    <h1>Register</h1>
-    <form method='POST'> {% csrf_token %}
-      {{ form }}
-      <button type='submit' class='btn btn-default'>Submit</button>
-    </form>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'login/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'login/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'login/fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'login/vendor/animate/animate.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'login/vendor/css-hamburgers/hamburgers.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'login/vendor/animsition/css/animsition.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'login/vendor/select2/select2.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'login/vendor/daterangepicker/daterangepicker.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'login/css/util.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'login/css/main.css' %}">
+    <!--===============================================================================================-->
+</head>
+<body>
 
-{% endblock %}
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100 p-t-90 p-b-30">
+            <form action="" method="post" lass="login100-form validate-form">
+                {% csrf_token %}
+                <span class="login100-form-title p-b-40">
+						Sign up
+					</span>
+
+                <div class="wrap-input100 validate-input m-b-16" data-validate="Please enter company name">
+                    {{ form.name }}
+                    <span class="focus-input100"></span>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+
+
+                        <div class="wrap-input100 validate-input m-b-16" data-validate="Please enter email: ex@gmail.com">
+                            {{ form.email }}
+                            <span class="focus-input100"></span>
+                        </div>
+
+                        <div class="wrap-input100 validate-input m-b-20" data-validate = "Please enter password">
+						<span class="btn-show-pass">
+							<i class="fa fa fa-eye"></i>
+						</span>
+                            {{ form.password1 }}
+                            <span class="focus-input100"></span>
+                        </div>
+
+                        <div class="wrap-input100 validate-input m-b-20" data-validate = "Please enter password">
+						<span class="btn-show-pass">
+							<i class="fa fa fa-eye"></i>
+						</span>
+                            {{ form.password2 }}
+                            <span class="focus-input100"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="wrap-input100 validate-input m-b-16" data-validate="Please enter company name">
+                            {{ form.location }}
+                            <span class="focus-input100"></span>
+                        </div>
+
+                        <div class="wrap-input100 validate-input m-b-16" data-validate="Please enter email: ex@gmail.com">
+                            {{ form.website }}
+                            <span class="focus-input100"></span>
+                        </div>
+
+                        <div class="wrap-input100 validate-input m-b-16" data-validate="Please enter email: ex@gmail.com">
+                            {{ form.phone }}
+                            <span class="focus-input100"></span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="container-login100-form-btn">
+                    <button type="submit" class="login100-form-btn">
+                        Sign up
+                    </button>
+                </div>
+
+                <div class="flex-col-c p-t-224">
+						<span class="txt2 p-b-10">
+							Already have an account?
+						</span>
+
+                    <a href="{% url 'login' %}" class="txt3 bo1 hov1">
+                        Sign in now
+                    </a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!--===============================================================================================-->
+<script src="{% static 'login/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'login/vendor/animsition/js/animsition.min.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'login/vendor/bootstrap/js/popper.js' %}"></script>
+<script src="{% static 'login/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'login/vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'login/vendor/daterangepicker/moment.min.js' %}"></script>
+<script src="{% static 'login/vendor/daterangepicker/daterangepicker.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'login/vendor/countdowntime/countdowntime.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'login/js/main.js' %}"></script>
+
+</body>
+</html>
