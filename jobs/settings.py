@@ -22,9 +22,12 @@ INSTALLED_APPS = [
     'employer.apps.EmployerConfig',
     'froala_editor',
     'debug_toolbar',
+    'crispy_forms'
 ]
 
 AUTH_USER_MODEL = 'employer.Employer'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
