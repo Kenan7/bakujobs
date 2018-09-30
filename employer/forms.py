@@ -1,70 +1,116 @@
-from django.contrib.auth import (
-    authenticate,
-    login,
-    logout
-)
+from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.contrib.auth import get_user_model
 from .models import Employer
 from django import forms
 
 
-class UserLoginForm(forms.Form):
-    name            = forms.CharField()
-    password        = forms.CharField(widget=forms.PasswordInput)
+User = get_user_model()
+
+
+class UserAdminCreationForm(forms.ModelForm):
+    """A form for creating new users. Includes all the required
+    fields, plus a repeated password."""
+    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+
+    class Meta:
+        model = User
+        fields = ('name', 'email',)
+
+    def clean_password2(self):
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError("Passwords don't match")
+        return password2
+
+    def save(self, commit=True):
+        user = super(UserAdminCreationForm, self).save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+        return user
+
+
+
+class UserAdminChangeForm(forms.ModelForm):
+    """A form for updating users. Includes all the fields on
+    the user, but replaces the password field with admin's
+    password hash display field.
+    """
+    password = ReadOnlyPasswordHashField()
+
+    class Meta:
+        model = User
+        fields = ('name', 'email', 'password', 'active', 'admin')
+
+    def clean_password(self):
+        return self.initial["password"]
+
+
+class LoginForm(forms.Form):
+    email    = forms.EmailField(label='Email')
+    password = forms.CharField(label='Password', widget=forms.PasswordInput)
 
     def __init__(self, *args, **kwargs):
-        super(UserLoginForm, self).__init__(*args, **kwargs)
-        self.fields['name'].widget.attrs.update({
+        super(LoginForm, self).__init__(*args, **kwargs)
+        self.fields['email'].widget.attrs.update({
             'class': 'input100'
         })
         self.fields['password'].widget.attrs.update({
             'class': 'input100'
         })
 
-    def clean(self, *args, **kwargs):
-        name = self.cleaned_data.get("name")
-        password = self.cleaned_data.get("password")
 
-        if name and password:
-            user = authenticate(name=name, password=password)
-            if not user:
-                raise forms.ValidationError("This user does not exist")
-                print("This user does not exist")
-            if not user.check_password(password):
-                raise forms.ValidationError("Incorrect passsword")
-                print("Incorrect passsword")
-            if not user.is_active:
-                raise forms.ValidationError("This user is not longer active.")
-                print("This user is not longer active.")
-            print("whatever")
-        return super(UserLoginForm, self).clean(*args, **kwargs)
+class RegisterForm(forms.ModelForm):
+    password1   = forms.CharField(label='Password', widget=forms.PasswordInput)
+    password2   = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+    location    = forms.CharField(label='Company Location')
+    website     = forms.CharField(label='Company Website')
+    phone       = forms.IntegerField(label='Company phone number')
 
-
-class UserRegisterForm(forms.ModelForm):
-    email       = forms.EmailField(label='Email address')
-    email2      = forms.EmailField(label='Confirm Email')
-    password    = forms.CharField(widget=forms.PasswordInput)
+    def __init__(self, *args, **kwargs):
+        super(RegisterForm, self).__init__(*args, **kwargs)
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update({
+                'class': 'input100'
+            })
+        self.fields['name'].widget.attrs.update({
+            'placeholder': 'Company name'
+        })
+        self.fields['email'].widget.attrs.update({
+            'placeholder': 'Company e-mail'
+        })
+        self.fields['password1'].widget.attrs.update({
+            'placeholder': 'New password'
+        })
+        self.fields['password2'].widget.attrs.update({
+            'placeholder': 'Retype password'
+        })
+        self.fields['website'].widget.attrs.update({
+            'placeholder': 'Company website'
+        })
+        self.fields['location'].widget.attrs.update({
+            'placeholder': 'Company location'
+        })
+        self.fields['phone'].widget.attrs.update({
+            'placeholder': 'Company phone number'
+        })
 
     class Meta:
         model = Employer
-        fields = [
-            'name',
-            'email',
-            'email2',
-            'location',
-            'website',
-            'phone'
-        ]
+        fields = ('name', 'email',)
 
-    def clean_email2(self):
-        email = self.cleaned_data.get('email')
-        email2 = self.cleaned_data.get('email2')
-        if email != email2:
-            raise forms.ValidationError("Emails must match")
+    def clean_password2(self):
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError("Passwords don't match")
+        return password2
 
-        #
-        # Gonna write AJAX request in here somewhere for checking existing email real-time
-        #
-        email_qs = Employer.objects.filter(email=email)
-        if email_qs.exists():
-            raise forms.ValidationError("This email has already been registered")
-        return email
+    def save(self, commit=True):
+        user = super(RegisterForm, self).save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+        return user

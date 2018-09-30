@@ -11,7 +11,7 @@
                             <h3>{{ job.job_title }}</h3>
 							<div class="job-statistic">
 								<span>{{ job.job_type }}</span>
-								<p><i class="la la-map-marker"></i>{{ job.location }}</p>
+								<p><i class="la la-map-marker"></i>{{ job.owner.location }}</p>
 								<p><i class="la la-calendar-o"></i>{{ job.created_at | timesince }}</p>
 							</div>
                         </div>
@@ -31,11 +31,11 @@
                                 {% load static %}
 				 				<div class="job-thumb"> <img src="{% static 'img/sj.png' %}" alt=""> </div>
 				 				<div class="job-head-info">
-				 					<h4>{{ job.company_name }}</h4>
-				 					<span>{{ job.location }}</span>
-				 					<p><i class="la la-unlink"></i>{{ job.website }}</p>
-				 					<p><i class="la la-phone"></i>{{ job.phone }}</p>
-				 					<p><i class="la la-envelope-o"></i>{{ job.email }}</p>
+				 					<h4>{{ job.owner.name }}</h4>
+				 					<span>{{ job.owner.location }}</span>
+				 					<p><i class="la la-unlink"></i>{{ job.owner.website }}</p>
+				 					<p><i class="la la-phone"></i>{{ job.owner.phone }}</p>
+				 					<p><i class="la la-envelope-o"></i>{{ job.owner.email }}</p>
 				 				</div>
 				 			</div><!-- Job Head -->
 				 			<div class="job-details">

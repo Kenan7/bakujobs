@@ -1,9 +1,11 @@
 from .utils import slug_pre_save_receiver, email_post_save_receiver
 from django.db.models.signals import pre_save, post_save
-from employer.models import Employer
+from django.contrib.auth import get_user_model
 from froala_editor import fields
 from django.urls import reverse
 from django.db import models
+
+Employer = get_user_model()
 
 GENDER_CHOICES = (
     ('All', 'All'),
@@ -69,7 +71,7 @@ class Job(models.Model):
 
 # Signal stuff
 
-post_save.connect(email_post_save_receiver, sender=Job)
+#post_save.connect(email_post_save_receiver, sender=Job)
 pre_save.connect(slug_pre_save_receiver, sender=Category)
 pre_save.connect(slug_pre_save_receiver, sender=Description)
 pre_save.connect(slug_pre_save_receiver, sender=Type)

@@ -1,10 +1,10 @@
+from django.contrib.auth import get_user_model
 from django.contrib import admin
 from bakujobs.models import (
     Job,
     Description,
     Category,
     Type,
-    Employer
 )
 
 class EmployerAdmin(admin.ModelAdmin):
@@ -48,4 +48,3 @@ admin.site.register(Job, JobAdmin)
 admin.site.register(Category)
 admin.site.register(Type)
 admin.site.register(Description)
-admin.site.register(Employer, EmployerAdmin)
