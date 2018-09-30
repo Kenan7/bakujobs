@@ -1,8 +1,12 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, reverse
 from django.http import JsonResponse
-from django.utils import timezone
-from datetime import timedelta
-import pytz
+from django.contrib.auth import (
+    authenticate,
+    login,
+    logout
+)
+
 from django.views.generic import (
     View,
     ListView,
@@ -15,19 +19,25 @@ from bakujobs.models import (
     Description,
     Category
 )
+from django.utils import timezone
+from datetime import timedelta
 from .forms import JobCreate
+import pytz
+
 
 class Home(ListView):
     model = Job
     template_name = "bakujobs/job_list.html"
 
-class JobCreate(CreateView):
+class JobCreate(LoginRequiredMixin, CreateView):
+    login_url = 'login'
     form_class = JobCreate
     template_name = 'bakujobs/job_create.html'
 
     def form_valid(self, form):
         instance = form.save(commit=False)
         instance.owner = self.request.user
+        print(instance.owner)
         response = super(JobCreate, self).form_valid(form)
         form.save()
         return response

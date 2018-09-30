@@ -1,5 +1,6 @@
 import os
 
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = '7#729mobv@p7rhrp(&f-jw4^c45+w9h1zlr2jf^tvgub*^&gmr'
@@ -18,9 +19,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bakujobs.apps.BakujobsConfig',
+    'employer.apps.EmployerConfig',
     'froala_editor',
-    'debug_toolbar'
+    'debug_toolbar',
 ]
+
+AUTH_USER_MODEL = 'employer.Employer'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -30,7 +34,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware'
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'jobs.urls'
@@ -85,7 +89,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Asia/Baku'
+TIME_ZONE = 'Europe/Istanbul'
 
 USE_I18N = True
 
@@ -110,3 +114,4 @@ EMAIL_HOST_USER = "jobsbaki@gmail.com"
 EMAIL_HOST_PASSWORD = 'Kenan53626'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+

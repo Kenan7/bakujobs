@@ -1,11 +1,23 @@
+from django.contrib.auth import get_user_model
 from django.contrib import admin
 from bakujobs.models import (
     Job,
     Description,
     Category,
-    Type
+    Type,
 )
 
+class EmployerAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (
+            'Job',
+            {
+                'fields':
+                    ['name', 'password',
+                     'email', 'location', 'website', 'phone']
+            }
+        )
+    ]
 
 class JobAdmin(admin.ModelAdmin):
     list_display = ['__str__', 'category', 'job_description', 'job_title', 'job_type']
@@ -19,11 +31,11 @@ class JobAdmin(admin.ModelAdmin):
                ]
           }
          ),
-        ('Company',
-         {'fields':
-              ['company_name', 'location', 'email', 'website', 'phone']
-          }
-         ),
+        # ('Company',
+        #  {'fields':
+        #       ['company_name', 'location', 'email', 'website', 'phone']
+        #   }
+        #  ),
         ('Additional',
          {'fields':
               ['owner', 'slug', 'status']

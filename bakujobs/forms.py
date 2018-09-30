@@ -5,7 +5,8 @@ from django import forms
 class JobCreate(forms.ModelForm):
     class Meta:
         model = Job
-        fields = ('job_title', 'company_name', 'category', 'job_description', 'job_type', 'location', 'description', 'website', 'email', 'phone', 'min_salary', 'max_salary', 'gender')
+        #fields = ('job_title', 'company_name', 'category', 'job_description', 'job_type', 'location', 'description', 'website', 'email', 'phone', 'min_salary', 'max_salary', 'gender')
+        fields = ('job_title', 'category', 'job_description', 'job_type', 'description', 'min_salary', 'max_salary', 'gender')
 
     def __init__(self, *args, **kwargs):
         # self.user = kwargs.pop('user')

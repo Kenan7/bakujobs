@@ -1,7 +1,6 @@
 .idea/
+bakujobs/__pycache__/
 *.pyc
 bakujobs/extra_view.py
 bakujobs/has-not-been-applied.py
 bakujobs/templates/bakujobs/test.html
-bakujobs/__pycache__/
-jobs/__pycache__/

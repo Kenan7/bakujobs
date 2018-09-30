@@ -1,3 +1,4 @@
+from django.db.models.signals import pre_save, post_save
 from django.core.mail import send_mail
 from django.utils.text import slugify
 from django.template import loader
@@ -42,3 +43,11 @@ def unique_slug_generator(instance, new_slug=None):
         )
         return unique_slug_generator(instance, new_slug=new_slug)
     return slug
+
+
+def slug_pre_save_receiver(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = unique_slug_generator(instance)
+
+def email_post_save_receiver(sender, instance, *args, **kwargs):
+    send_job_mail(instance)

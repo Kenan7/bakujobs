@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Login V7</title>
+
+	<title>Login</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     {% load staticfiles %}
@@ -33,7 +34,7 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100 p-t-90 p-b-30">
-				<form method="post" lass="login100-form validate-form">
+				<form action="" method="post" lass="login100-form validate-form">
                     {% csrf_token %}
 					<span class="login100-form-title p-b-40">
 						Login
@@ -58,8 +59,7 @@
 					</div>
 
 					<div class="wrap-input100 validate-input m-b-16" data-validate="Please enter email: ex@gmail.com">
-                        {{ form.name }}
-{#						<input class="input100" type="text" name="email" placeholder="Email">#}
+                        {{ form.email }}
 						<span class="focus-input100"></span>
 					</div>
 
@@ -68,12 +68,11 @@
 							<i class="fa fa fa-eye"></i>
 						</span>
                         {{ form.password }}
-{#						<input class="input100" type="password" name="pass" placeholder="Password">#}
 						<span class="focus-input100"></span>
 					</div>
 
 					<div class="container-login100-form-btn">
-						<button class="login100-form-btn">
+						<button type="submit" class="login100-form-btn">
 							Login
 						</button>
 					</div>
@@ -82,8 +81,7 @@
 						<span class="txt2 p-b-10">
 							Don’t have an account?
 						</span>
-
-						<a href="#" class="txt3 bo1 hov1">
+						<a href="{% url 'register' %}" class="txt3 bo1 hov1">
 							Sign up now
 						</a>
 					</div>
