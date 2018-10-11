@@ -1,0 +1,144 @@
+<script>
+    $(document).ready(function (e) {
+        $("#my_radio_box").change(function (e) {
+            var postDate = $("input[name='choose']:checked").val();
+            console.log(postDate)
+            $.ajax({
+                url: 'sorted/',
+                type: "GET",
+                data: {
+                    'date': postDate
+                },
+                success: function (data) {
+                    $(".job-list-modern").html(data);
+                },
+                error: function (xhr, errmsg, err) {
+                    console.log(xhr, errmsg, err);
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    // Auto Search
+    var searchForm = $(".search-form");
+    var searchInput = searchForm.find("[name='q']"); // input name='q'
+    var searchQuery;
+    var typingTimer;
+    var typingInterval = 300;
+    var searchBtn = searchForm.find("[name='search-button']");
+    searchInput.keyup(function(event){
+        // key released
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(perfomSearch, typingInterval);
+    });
+
+    searchInput.keydown(function(event){
+        // key pressed
+        clearTimeout(typingTimer);
+    });
+
+    function displaySearching(){
+        searchBtn.addClass("disabled");
+        searchBtn.html("<i class='fa fa-spin fa-spinner'></i> Searching...");
+    };
+
+    function perfomSearch(){
+        displaySearching();
+        searchQuery = searchInput.val();
+        {#console.log('query is ' + searchQuery);#}
+        $.ajax({
+            url: 'search/?q=' + searchQuery,
+            type: "GET",
+            success: function (data) {
+                {#console.log("here we gooooo: " + data)#}
+                $(".section").html(data);
+            },
+            error: function (xhr, errmsg, err) {
+                console.log(xhr, errmsg, err);
+                {#console.log("it's errooorroroo");#}
+            }
+        });
+
+    }
+    {#$(document).ready(function (e) {#}
+    {#    $(".search-form").on('submit', function (e) {#}
+    {#        var url = $(".search-form").attr("data-items-url");#}
+    {#        var value = $(".whatever").val();#}
+    {##}
+    {#        console.log(value)#}
+    {#        $.ajax({#}
+    {#            url: 'search/',#}
+    {#            type: "GET",#}
+    {#            data: {#}
+    {#                'q': value#}
+    {#            },#}
+    {#            success: function (data) {#}
+    {#                console.log("here we gooooo: " + data)#}
+    {#                $(".section").html(data);#}
+    {#            },#}
+    {#            error: function (xhr, errmsg, err) {#}
+    {#                console.log(xhr, errmsg, err);#}
+    {#                console.log("it's errooorroroo")#}
+    {#            }#}
+    {#        });#}
+    {#    });#}
+    {#});#}
+</script>
+
+<script>
+    // using jQuery
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+</script>
+
+{##}
+{# Get category id and list it's elements #}
+{##}
+<script>
+    $(document).ready(function (e) {
+        $("#id_category").change(function(e) {
+            var categoryId = $(this).val();
+            var url = $("#jobForm").attr("data-items-url");
+            $.ajax({
+                url: url,
+                type: "GET",
+                data: {
+                    'category': categoryId
+                },
+                success: function (data) {
+                    $("#id_job_description").html(data);
+                },
+                error: function (xhr, errmsg, err) {
+                    console.log(xhr, errmsg, err);
+                }
+            });
+        });
+    });
+</script>

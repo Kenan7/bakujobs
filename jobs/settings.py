@@ -18,14 +18,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'haystack',
+
     'bakujobs.apps.BakujobsConfig',
     'employer.apps.EmployerConfig',
     'froala_editor',
     'debug_toolbar',
-    'crispy_forms'
+    'crispy_forms',
+    'authtools'
 ]
 
 AUTH_USER_MODEL = 'employer.Employer'
+LOGIN_URL = 'login'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -67,6 +72,14 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+HAYSTACK_CONNECTIONS = {
+              'default': {
+                    'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+                    'URL': 'http://127.0.0.1:9200/',
+                    'INDEX_NAME': 'haystack_jobs',
+              },
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
