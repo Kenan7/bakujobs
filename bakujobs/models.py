@@ -3,6 +3,7 @@ from django.db.models.signals import pre_save, post_save
 from django.contrib.auth import get_user_model
 from froala_editor import fields
 from django.urls import reverse
+from django.db.models import Q
 from django.db import models
 
 Employer = get_user_model()
@@ -38,6 +39,16 @@ class Type(models.Model):
     def __str__(self):
         return self.name
 
+class JobManager(models.Manager):
+    def search(self, query=None):
+        qs = self.get_queryset()
+        if query is not None:
+            or_lookup = (Q(job_title__icontains=query) |
+                         Q(slug__icontains=query)
+                        )
+            qs = qs.filter(or_lookup).distinct() # distinct() is often necessary with Q lookups
+        return qs
+
 class Job(models.Model):
     class Meta:
         ordering = ['-modified_at']
@@ -58,6 +69,8 @@ class Job(models.Model):
     modified_at     = models.DateTimeField(auto_now=True, editable=False)
     status          = models.BooleanField(default=1)
     slug            = models.SlugField(blank=True, null=True, unique=True)
+
+    objects         = JobManager()
 
     def __str__(self):
         return self.job_title
