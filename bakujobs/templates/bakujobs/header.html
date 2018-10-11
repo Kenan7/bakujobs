@@ -7,10 +7,18 @@
             </div><!-- Logo -->
             <div class="btn-extars">
                 <a href="{% url 'jobcreate' %}" class="post-job-btn"><i class="la la-plus"></i>Post Jobs</a>
-                <ul class="account-btns">
-                    <li class="signup-popup"><a href="{% url 'register' %}" title=""><i class="la la-key"></i> Sign Up</a></li>
-                    <li class="signin-popup"><a href="{% url 'login' %}" title=""><i class="la la-external-link-square"></i> Login</a></li>
-                </ul>
+                {% if request.user.is_authenticated %}
+                    <ul class="account-btns">
+                        <li class="signin-popup"><a class="welcome" href="{% url 'employer_job_list' %}">Welcome {{ request.user.name }}</a></li>
+                        <li class="signin-popup"><a class="welcome" href="{% url 'logout' %}"><i class="la la-sign-out"></i> Logout </a></li>
+                    </ul>
+                {% else %}
+                    <ul class="account-btns">
+                        <li class="signup-popup"><a href="{% url 'register' %}" title=""><i class="la la-key"></i> Sign Up</a></li>
+                        <li class="signin-popup"><a href="{% url 'login' %}" title=""><i class="la la-external-link-square"></i> Login</a></li>
+                    </ul>
+                {% endif %}
+
             </div><!-- Btn Extras -->
             <nav>
                 <ul>
