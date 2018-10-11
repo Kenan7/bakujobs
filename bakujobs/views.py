@@ -8,6 +8,7 @@ from django.views.generic import (
     ListView,
     CreateView,
     DetailView,
+    UpdateView,
     TemplateView
 )
 from django.contrib.auth import (
@@ -54,6 +55,10 @@ class JobDetail(DetailView):
     context_object_name = "job"
     queryset = Job.objects.all()
     template_name = 'bakujobs/job_detail.html'
+
+class JobUpdate(UpdateView):
+    model = Job
+    template_name = 'bakujobs/job_create.html'
 
 class GetCategoryDescriptionAjaxView(View):
     ajax_template = "bakujobs/select.html"
