@@ -1,0 +1,79 @@
+{% extends 'employer/base/base.html' %}
+{% load class_name %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+    <section class="overlape">
+        <div class="block no-padding">
+            <div data-velocity="-.1" style="background: url({% static 'img/mslider1.jpg' %}) repeat scroll 50% 422.28px transparent;" class="parallax scrolly-invisible no-parallax"></div><!-- PARALLAX BACKGROUND IMAGE -->
+            <div class="container fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="inner-header wform">
+                            <div class="job-search-sec">
+                                <div class="job-search">
+                                    <h4>Explore Thousand Of Jobs With Just Simple Search...</h4>
+                                    <form>
+                                        <div class="row">
+                                            <div class="col-lg-11">
+                                                <div class="job-field">
+                                                    <form method="GET" action="{% url 'query' %}">
+                                                        <input type="text" name="q" value="" placeholder="Job title, keywords or company name">
+                                                        <i class="la la-keyboard-o"></i>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-1">
+                                                <button type="submit"><i class="la la-search"></i></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section>
+        <div class="row col-12">
+            {% for job in object_list %}
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ml-3">
+                    <div class="job-grid border">
+                        <div class="job-title-sec pt-3">
+                            <h3>
+                                <a href="{{ job.get_absolute_url }}" title="">{{ job.job_title }}</a>
+                            </h3>
+                            <span>{{ job.category }} / {{ job.job_description }}</span>
+
+                            <div class="job-style-bx">
+                                <span class="job-is {{ job.job_type.slug }}">{{ job.job_type.name }}</span>
+                            </div>
+                        </div>
+                        <span class="job-lctn">{{ job.location }}</span>
+                        <a href="#" id="apply" title="">APPLY NOW</a>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <div class="viewmore"><span><i></i><i></i><i></i>View More</span></div>
+        </div>
+    </section>
+
+
+    <div>
+        {% load staticfiles %}
+        <script src="{% static 'js/modernizr.js' %}" type="text/javascript"></script>
+        <script src="{% static 'js/script.js' %}" type="text/javascript"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'js/wow.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'js/slick.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'js/parallax.js' %}" type="text/javascript"></script>
+        <script src="{% static 'js/select-chosen.js' %}" type="text/javascript"></script>
+        <script src="{% static 'js/jquery.scrollbar.min.js' %}" type="text/javascript"></script>
+    </div>
+{% endblock %}
