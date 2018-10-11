@@ -1,17 +1,19 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, reverse
 from django.http import JsonResponse
-from django.contrib.auth import (
-    authenticate,
-    login,
-    logout
-)
-
+from employer.models import Employer
 from django.views.generic import (
     View,
     ListView,
     CreateView,
-    DetailView
+    DetailView,
+    TemplateView
+)
+from django.contrib.auth import (
+    authenticate,
+    login,
+    logout
 )
 from bakujobs.models import (
     Job,
@@ -22,6 +24,7 @@ from bakujobs.models import (
 from django.utils import timezone
 from datetime import timedelta
 from .forms import JobCreate
+from itertools import chain
 import pytz
 
 
@@ -89,3 +92,58 @@ class GetDateAndFilter(View):
             context = {}
             context["object_list"] = queryset
             return render(request, self.ajax_template, context)
+
+# class Search(TemplateView):
+#     template_name = 'bakujobs/search.html'
+
+class SearchView(ListView):
+    template_name = 'bakujobs/search.html'
+    count = 0
+
+    def get(self, request, *args, **kwargs):
+        # print("Request method is GET")
+        if request.is_ajax():
+            # print("Request is ajax")
+            query = request.GET.get('q', None)
+            context = {}
+            # print("Here is a query", query)
+            if query != "":
+                # print("Query is not none")
+                job_results = Job.objects.search(query)
+                count = job_results.count()
+                context['count'] = count
+                context['query'] = query
+                # print("job result is", job_results)
+                context['search_result'] = job_results
+            else:
+                context["error"] = True
+                job_results = Job.objects.none()
+            return render(request, self.template_name, context)
+
+        else:
+            return HttpResponse("it is not just ajax request")
+
+    # def get_context_data(self, *args, **kwargs):
+    #     context = super().get_context_data(*args, **kwargs)
+    #     context['count'] = self.count or 0
+    #     context['query'] = self.request.GET.get('q')
+    #     context['result'] = True
+    #     return context
+    #
+    # def get_queryset(self):
+    #     request = self.request
+    #     query = request.GET.get('q', None)
+    #
+    #     if query is not None:
+    #         job_results         = Job.objects.search(query)
+    #
+    #         # combine querysets
+    #         queryset_chain = chain(
+    #             job_results,
+    #         )
+    #         qs = sorted(queryset_chain,
+    #                     key=lambda instance: instance.pk,
+    #                     reverse=True)
+    #         self.count = len(qs) # since qs is actually a list
+    #         return qs
+    #     return Job.objects.none() # just an empty queryset as default
