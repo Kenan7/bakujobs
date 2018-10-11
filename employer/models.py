@@ -2,6 +2,7 @@ from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from bakujobs.utils import slug_pre_save_receiver
 from django.db.models.signals import pre_save
 from django.shortcuts import reverse
+from django.db.models import Q
 from django.db import models
 
 class EmployerManager(BaseUserManager):
@@ -23,22 +24,31 @@ class EmployerManager(BaseUserManager):
 
     def create_staffuser(self, email, name=None, password=None):
         user = self.create_user(
-                email,
-                name=name,
-                password=password,
-                is_staff=True
+            email,
+            name=name,
+            password=password,
+            is_staff=True
         )
         return user
 
     def create_superuser(self, email, name=None, password=None):
         user = self.create_user(
-                email,
-                name=name,
-                password=password,
-                is_staff=True,
-                is_admin=True
+            email,
+            name=name,
+            password=password,
+            is_staff=True,
+            is_admin=True
         )
         return user
+
+    def search(self, query=None):
+        qs = self.get_queryset()
+        if query is not None:
+            or_lookup = (Q(name__icontains=query) |
+                         Q(slug__icontains=query)
+                         )
+            qs = qs.filter(or_lookup).distinct()  # distinct() is often necessary with Q lookups
+        return qs
 
 
 class Employer(AbstractBaseUser):
