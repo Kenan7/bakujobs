@@ -12,11 +12,11 @@
                             <div class="job-search-sec">
                                 <div class="job-search">
                                     <h4>Explore Thousand Of Jobs With Just Simple Search...</h4>
-                                    <form>
+                                    <form class="search-form" method="get" action="{% url 'query' %}" data-items-url="{% url 'query' %}">
                                         <div class="row">
                                             <div class="col-lg-11">
                                                 <div class="job-field">
-                                                    <input type="text" placeholder="Job title, keywords or company name">
+                                                    <input class="query" name="q" placeholder="Job title, keywords or company name">
                                                     <i class="la la-keyboard-o"></i>
                                                 </div>
                                             </div>
@@ -32,9 +32,11 @@
                 </div>
             </div>
         </div>
+        </div>
     </section>
 
-    <section>
+
+    <section class="section">
         <div class="block no-padding">
             <div class="container">
                 <div class="row no-gape">
