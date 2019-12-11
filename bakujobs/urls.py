@@ -23,7 +23,7 @@ urlpatterns = [
     # job stuff
     path('jobs/<slug:slug>/', bakujobs_views.JobDetail.as_view(), name='jobdetail'),
     path('create/', bakujobs_views.JobCreate.as_view(), name='jobcreate'),
-    path('update/', bakujobs_views.JobUpdate.as_view(), name='jobupdate'),
+    path('update/<slug:slug>/', bakujobs_views.JobUpdate.as_view(), name='jobupdate'),
     path('sorted/', bakujobs_views.GetDateAndFilter.as_view()),
     path('ajax/load-items/', bakujobs_views.GetCategoryDescriptionAjaxView.as_view(), name='ajax_load_items'),
 

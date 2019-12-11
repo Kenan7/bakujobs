@@ -1,6 +1,6 @@
+from django.shortcuts import render, reverse, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, reverse
 from django.http import JsonResponse
 from employer.models import Employer
 from django.views.generic import (
@@ -57,8 +57,12 @@ class JobDetail(DetailView):
     template_name = 'bakujobs/job_detail.html'
 
 class JobUpdate(UpdateView):
-    model = Job
     template_name = 'bakujobs/job_create.html'
+    fields = '__all__'
+
+    def get_object(self):
+        slug_ = self.kwargs.get('slug')
+        return get_object_or_404(Job, slug=slug_)
 
 class GetCategoryDescriptionAjaxView(View):
     ajax_template = "bakujobs/select.html"
