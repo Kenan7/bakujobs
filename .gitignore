@@ -4,4 +4,5 @@ bakujobs/__pycache__/
 bakujobs/extra_view.py
 bakujobs/has-not-been-applied.py
 bakujobs/templates/bakujobs/test.html
-db.sqlite3
+bakujobs/db.sqlite3
+env/
