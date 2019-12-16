@@ -1,0 +1,5 @@
+Django==2.2
+django-authtools==1.7.0
+django-crispy-forms==1.8.1
+django-debug-toolbar==2.1
+django-froala-editor==3.0.6
