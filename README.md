@@ -28,5 +28,25 @@
 * install requirements (Django, ...) into virtualenv:
 
         $ pip install -r requirements.txt
+        
+* Make migrations:
+
+        $ (env) python manage.py makemigrations
+        
+* Build the database:
+
+        $ (env) python manage.py migrate
+
+* Create a superuser:
+
+        $ (env) python manage.py createsuperuser
+
+
+* Run the development server:
+
+        $ (env) python manage.py migrate
+
+
+
 
 
