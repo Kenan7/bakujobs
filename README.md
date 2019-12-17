@@ -44,7 +44,7 @@
 
 * Run the development server:
 
-        $ (env) python manage.py migrate
+        $ (env) python manage.py runserver
 
 
 
